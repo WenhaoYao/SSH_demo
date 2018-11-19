@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>数据可视化分析</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css"/>
+    </noscript>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- 引入 echarts -->
+    <script src="js/echarts.js"></script>
+    <!-- 引入 vintage 主题 -->
+    <script src="js/theme/vintage.js"></script>
+    <script src="js/theme/dark.js"></script>
+
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">
+            <span class="icon fa-diamond"></span>
+        </div>
+        <div class="content">
+            <div class="inner">
+                <h1>Visualization-Data</h1>
+                <p>这里是关于数据集文件的数据可视化相关信息以及图表信息展示<br>请点击相关信息查看数据</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#right">饼状图</a></li>
+                <li><a href="#morning">折线图</a></li>
+                <li><a href="#afternoon">柱状图</a></li>
+                <li><a href="e_map.html">map</a></li>
+                <li><a href="table.html">表格</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+        <!-- right -->
+        <article id="right">
+            <h2 class="major">pie</h2>
+            <p>这里是饼状图视图</p>
+            <span id="first" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- morning -->
+        <article id="morning">
+            <h2 class="major">line</h2>
+            <p>这里是各省本科与专科数量关系视图</p>
+            <span id="second" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- afternoon -->
+        <article id="afternoon">
+            <h2 class="major">bar</h2>
+            <p>这里是区域J值数量与年份视图</p>
+            <span id="third" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- evening -->
+        <article id="evening">
+            <h2 class="major">dashed</h2>
+            <p>这里是map</p>
+            <span id="fourth" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- whole -->
+        <article id="whole">
+            <h class="major">table</h>
+            <p>这里是表格视图</p>
+            <span id="fifth" style="width: 600px;height:500px;"></span>
+        </article>
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <p class="copyright">&copy; lsy version 2.0</p>
+    </footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('first'), 'dark');
+    var myChart2 = echarts.init(document.getElementById('second'), 'dark');
+    var myChart3 = echarts.init(document.getElementById('third'), 'dark');
+    var schools = [];    //类别数组（实际用来盛放X轴坐标值）
+    var j_nums = [];    //销量数组（实际用来盛放Y坐标值）
+    var provinces = [];
+    var z_bs = [];
+    var years = [];
+    var nums = [];
+    var year_num = [];
+    var juniors = [];
+    var bachelors = [];
+
+
+var option1 = {
+    title : {
+        text: '学校数量与年份关系',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:['2014','2015','2016','2017','2018']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {
+                show: true,
+                type: ['pie', 'funnel'],
+                option: {
+                    funnel: {
+                        x: '25%',
+                        width: '50%',
+                        funnelAlign: 'left',
+                        max: 1548
+                    }
+                }
+            },
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    series : [
+        {
+            name:'学校数量与年份关系',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:148, name:'2014'},
+                {value:1136, name:'2015'},
+                {value:3021, name:'2016'},
+                {value:6762, name:'2017'},
+                {value:87238, name:'2018'}
+            ]
+        }
+    ]
+}
+myChart1.setOption(option1);
+    //=================================================
+    // 折线图
+    myChart2.setOption( {
+        title: {
+            text: '折线图'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['本科','专科']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data:
+                    []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            }
+        ],
+        series: [
+            {
+                name: '本科',
+                type: 'line',
+                data: [
+                ],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '本科'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name: '专科',
+                type: 'line',
+                data: [],
+                markPoint: {
+                    data: [
+                        {name: 'low', name: '专科'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    })
+
+    $.ajax({
+        type: 'get',
+        url: 'json/province_level.json',//请求数据的地址
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            //请求成功时执行该函数内容，result即为服务器返回的json对象
+            $.each(result.list, function (index, item) {
+                provinces.push(item.province);    //挨个取出类别并填入类别数组                    
+                juniors.push(item.junior);    //挨个取出销量并填入销量数组
+                bachelors.push(item.bachelor);
+            });
+
+            myChart2.setOption({        //加载数据图表
+                xAxis: {
+                    data: provinces
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: juniors
+                },{
+                    data :bachelors
+                }]
+            });
+        },
+        error: function (errorMsg) {
+            //请求失败时执行该函数
+            alert("图表请求数据失败!");
+        }
+    });
+
+
+
+    //========================================
+
+    //柱状图
+    myChart3.setOption( {
+        title: {
+            x: 'center',
+            text: '柱状图'
+        },
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'J值',
+                type:'bar',
+                barWidth: '60%',
+                data:[]
+            }
+        ]
+    }
+    )
+
+// 折线图获取json数据
+    $.ajax({
+        type: 'get',
+        url: 'json/Jnum.json',//请求数据的地址
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            //请求成功时执行该函数内容，result即为服务器返回的json对象
+            $.each(result.list, function (index, item) {
+                years.push(item.year);    //挨个取出类别并填入类别数组                    
+                j_nums.push(item.num);    //挨个取出销量并填入销量数组
+            });
+
+            myChart3.setOption({        //加载数据图表
+                xAxis: {
+                    data: years
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    data: j_nums
+                }]
+            });
+        },
+        error: function (errorMsg) {
+            //请求失败时执行该函数
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    });
+
+</script>
+
+</body>
+</html>

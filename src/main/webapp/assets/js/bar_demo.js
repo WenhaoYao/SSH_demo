@@ -1,0 +1,77 @@
+ function loadOneColumn() {
+ var myChart = echarts.init(document.getElementById('third'));
+        // 显示标题，图例和空的坐标轴
+        myChart.setOption({
+            title: {
+                text: '异步数据加载示例'
+            },
+            tooltip: {},
+            legend: {
+                data: ['发布排行']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {
+                splitLine: { show: false },//去除网格线
+                name: ''
+            },
+            series: [{
+                barWidth: "30px",
+                name: '发布排行',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            position: 'top',
+                            textStyle: {
+                                color: '#333'
+                            }
+                        }
+                    }
+                },
+                data: []
+            }]
+        });
+
+
+        myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+
+
+        var names = [];    //类别数组（实际用来盛放X轴坐标值）
+        var nums = [];    //销量数组（实际用来盛放Y坐标值）
+
+
+        $.ajax({
+            type: 'get',
+            url: 'json/bar_demo.json',//请求数据的地址
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                $.each(result.list, function (index, item) {
+                    names.push(item.department);    //挨个取出类别并填入类别数组                    
+                    nums.push(item.num);    //挨个取出销量并填入销量数组
+                });
+
+
+                myChart.hideLoading();    //隐藏加载动画
+                myChart.setOption({        //加载数据图表
+                    xAxis: {
+                        data: names
+                    },
+                    series: [{
+                        // 根据名字对应到相应的系列
+                        name: '发布排行',  //显示在上部的标题
+                        data: nums
+                    }]
+                });
+            },
+            error: function (errorMsg) {
+                //请求失败时执行该函数
+                alert("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        });
+    };
+loadOneColumn();

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="assets/js/echarts.js"></script>
+    <script src="assets/js/china.js"></script>
+
+    <script src="bootstrap/js/jquery-3.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css"/>
+    <script src="bootstrap/js/ga.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
+    <style>
+        .body{
+            height: 100%;background-image: linear-gradient(to bottom, rgba(84,98,114,0.74), rgba(30,41,56,0.74)), url(images/overlay.png);
+            /*color: white;*/
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index_demo.html"><h1 class="btn btn-primary" style="margin-top: 30px">返回首页</h1></a>
+    <div id="map_demo" style="width: 750px;height:750px;position: center;margin-left: 230px;margin-top: 30px;"></div>
+</div>
+<div id="bg" style="z-index: -1"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('map_demo'));
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data: ['大学数量']
+        },
+        dataRange: {
+            x: 'left',
+            y: 'bottom',
+            splitList: [
+                {start: 141,textColor: 'white'},
+                {start: 121, end: 140},
+                {start: 101, end: 120},
+                {start: 71, end: 100},
+                {start: 51, end: 70},
+                {start: 21, end: 50},
+                {end: 20}
+            ],
+            color: ['#E0022B', '#E09107', '#A3E00B'],
+            textStyle:{
+                color:"white"
+            }
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            x: 'right',
+            y: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        roamController: {
+            show: true,
+            x: 'right',
+            mapTypeControl: {
+                'china': true
+            }
+        },
+        series: [
+            {
+                name: '大学数量',
+                type: 'map',
+                mapType: 'china',
+                roam: false,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                                color: "rgb(249, 249, 249)"
+                            }
+                        }
+                    },
+                    emphasis: {label: {show: true}}
+                },
+                data: [
+                    {name: '北京', value: 92},
+                    {name: '天津', value: 57},
+                    {name: '上海', value: 64},
+                    {name: '重庆', value: 65},
+                    {name: '河北', value: 121},
+                    {name: '河南', value: 134},
+                    {name: '云南', value: 77},
+                    {name: '辽宁', value: 115},
+                    {name: '黑龙江', value :81},
+                    {name: '湖南', value: 124},
+                    {name: '安徽', value: 119},
+                    {name: '山东', value: 145},
+                    {name: '新疆', value: 47},
+                    {name: '江苏', value: 167},
+                    {name: '浙江', value: 107},
+                    {name: '江西', value: 100},
+                    {name: '湖北', value: 129},
+                    {name: '广西', value: 74},
+                    {name: '甘肃', value: 49},
+                    {name: '山西', value: 80},
+                    {name: '内蒙古', value: 53},
+                    {name: '陕西', value: 93},
+                    {name: '吉林', value: 62},
+                    {name: '福建', value: 89},
+                    {name: '贵州', value: 70},
+                    {name: '广东', value: 151},
+                    {name: '青海', value: 12},
+                    {name: '西藏', value: 7},
+                    {name: '四川', value: 109},
+                    {name: '宁夏', value: 19},
+                    {name: '海南', value: 19}
+                    // {name: '台湾', value: Math.round(Math.random() * 2000)},
+                    // {name: '香港', value: Math.round(Math.random() * 2000)},
+                    // {name: '澳门', value: Math.round(Math.random() * 2000)}
+                ]
+            },
+
+        ]
+    };
+
+
+    myChart.setOption(option);
+
+</script>
+</body>
+</html>

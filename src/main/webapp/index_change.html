@@ -1,0 +1,544 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>数据可视化分析</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- 引入 echarts -->
+    <script src="js/echarts.js"></script>
+    <!-- 引入 vintage 主题 -->
+    <script src="js/theme/vintage.js"></script>
+    <script src="js/theme/dark.js"></script>
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">
+            <span class="icon fa-diamond"></span>
+        </div>
+        <div class="content">
+            <div class="inner">
+                <h1>Visualization-Data</h1>
+                <p>这里是关于数据集文件的数据可视化相关信息以及图表信息展示<br>请点击相关信息查看数据</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#right">饼状图</a></li>
+                <li><a href="#morning">折线图</a></li>
+                <li><a href="#afternoon">柱状图</a></li>
+                <li><a href="#evening">散点图</a></li>
+                <li><a href="#whole">表格</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+        <!-- right -->
+        <article id="right">
+            <h2 class="major">pie</h2>
+            <p>这里是饼状图视图</p>
+            <span id="first" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- morning -->
+        <article id="morning">
+            <h2 class="major">line</h2>
+            <p>这里是折线图视图</p>
+            <span id="second" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- afternoon -->
+        <article id="afternoon">
+            <h2 class="major">bar</h2>
+            <p>这里是柱状图视图</p>
+            <span id="third" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- evening -->
+        <article id="evening">
+            <h2 class="major">dashed</h2>
+            <p>这里是散点图视图</p>
+            <span id="fourth" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- whole -->
+        <article id="whole">
+            <h2 class="major">table</h2>
+            <p>这里是表格视图</p>
+            <span id="fifth" style="width: 600px;height:500px;"></span>
+        </article>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p class="copyright">&copy; HyperFlex.Design:2018.02.02.</p>
+    </footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('first'),'dark');
+    var myChart2 = echarts.init(document.getElementById('second'),'dark');
+    var myChart3 = echarts.init(document.getElementById('third'),'dark');
+    var myChart4 = echarts.init(document.getElementById('fourth'),'dark');
+    var myChart5 = echarts.init(document.getElementById('fifth'),'dark');
+    // 指定图表的配置项和数据
+    // 饼状图
+    var option1 = {
+        title: {
+            text: '饼状图',
+            left:'center'
+        },
+        textStyle:{
+            fontSize:15
+        },
+        series: [{
+            name: '概率统计',
+            type: 'pie',
+            radius: '60%',
+            legendHoverLink:true,
+            data : [
+                //     function(){
+                //  var arrNum = [];
+                //  $.ajax(
+                //  {
+                // 	type: "post",
+                // 	url: "" ,
+                // 	dataType : 'json',																			//传回来的数据形式为json对象形式
+                // 	async:true,
+                // 	success: function (result) {
+                // 	 	var type = result.type;																//type和num是后台定义的名字
+                // 	 	var typeNum = result.num;
+                // 		 for (var i = 0; i < type.length; i++)
+                // 		 {
+                // 					arrNum.push({"value": typeNum[i],"name":type[i]});
+                // 			}
+                // 	}
+                // 		 });
+                // 		 return arrNum;
+                // }
+                {value:335, name:'直接访问'},
+                {value:310, name:'邮件营销'},
+                {value:234, name:'联盟广告'},
+                {value:135, name:'视频广告'},
+                {value:1548, name:'搜索引擎'}
+            ]
+        }]
+    };
+    // 折线图
+    var option2 = {
+        title: {
+            text: '折线图',
+            left:'center'
+        },
+        textStyle:{
+            fontSize:15
+        },
+        tooltip: {
+            trigger:'item',
+            show:true,
+            triggerOn:'mousemove',
+            hideDelay:1000
+        },
+        radar: {
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 5,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                // { name: '牛奶', max: 6500},
+                // { name: '面包', max: 16000},
+                // { name: '米粥', max: 30000},
+                // { name: '豆浆', max: 38000},
+                // { name: '米饭', max: 52000},
+                // { name: '面食', max: 25000}
+                function(){
+                    var arrNum = [];
+                    $.ajax(
+                        {
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',
+                            async:true,
+                            success: function (result) {
+                                var typeName = result.name;
+                                var typeMax = result.max;
+                                for (var i = 0; i < typeName.length; i++)
+                                {
+                                    arrNum.push({"name":typeName[i],"max": typeMax[i]});
+                                }
+                            }
+                        });
+                    return arrNum;
+                }
+            ]
+        },
+        series: [{
+            name: '用户清晨饮食习惯统计',
+            type: 'radar',
+            symbolSize:'8',
+            areaStyle:{
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FF6A6A' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FF6A6A' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }
+            },
+            data : [
+                {"type": "正常", "value": "1274"},
+                {"type": "忧郁型", "value": "928"},
+                {"type": "反社会型","value": "92"},
+                {"type": "偏执型","value": "121"},
+                {"type": "强迫型","value": "619"},
+                {"type": "表演型","value": "284"},
+                {"type": "冲动型","value": "218"}
+                // function(){
+                //  var arrNum = [];
+                //  var value=[];
+                //  $.ajax(
+                //  {
+                // 	type: "post",
+                // 	url: "" ,
+                // 	dataType : 'json',
+                // 	async:true,
+                // 	success: function (result) {
+                // 		var typeName = result.name;
+                // 	 	var typeNum=result.num;
+                // 		 for (var i = 0; i < typeName.length; i++)
+                // 		 {
+                // 					value.push(typeNum[i]);
+                // 		}
+                // 		arrNum.push({value});
+                // 		}
+                // 	});
+                // 		 return arrNum;
+                // }
+                // { name: '牛奶', max: 6500},
+                // { name: '面包', max: 16000},
+                // { name: '米粥', max: 30000},
+                // { name: '豆浆', max: 38000},
+                // { name: '米饭', max: 52000},
+                // { name: '面食', max: 25000}
+            ]
+        }]
+    };
+    var option3 = {
+        title: {
+            text: '用户中午饮食习惯统计',
+            left:'center'
+        },
+        textStyle:{
+            fontSize:15
+        },
+        tooltip: {},
+        radar: {
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 5,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                // { name: '面食', max: 20000},
+                // { name: '肉类', max: 26000},
+                // { name: '蔬菜', max: 40000},
+                // { name: '甜点', max: 48000},
+                // { name: '焙烤', max: 52000},
+                // { name: '豆制', max: 25000}
+                function(){
+                    var arrNum = [];
+                    $.ajax(
+                        {
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',
+                            async:true,
+                            success: function (result) {
+                                var typeName = result.name;
+                                var typeMax = result.max;
+                                for (var i = 0; i < typeName.length; i++)
+                                {
+                                    arrNum.push({"name":typeName[i],"max": typeMax[i]});
+                                }
+                            }
+                        });
+                    return arrNum;
+                }
+            ]
+        },
+        series: [{
+            name: '用户中午饮食习惯',
+            type: 'radar',
+            symbolSize:'8',
+            areaStyle:{
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FF6A6A' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FF6A6A' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }
+            },
+            data : [
+                {
+                    // value : [15000, 18000, 32000, 12000, 45000, 22000],
+                    function(){
+                        var arrNum = [];
+                        var value=[];
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "" ,
+                                dataType : 'json',
+                                async:true,
+                                success: function (result) {
+                                    var typeName = result.name;
+                                    var typeNum=result.num;
+                                    for (var i = 0; i < typeName.length; i++)
+                                    {
+                                        value.push(typeNum[i]);
+                                    }
+                                    arrNum.push({value});
+                                }
+                            });
+                        return arrNum;
+                    }
+                }
+            ]
+        }]
+    };
+    var option4 = {
+        title: {
+            text: '用户夜晚饮食习惯统计',
+            left:'center'
+        },
+        textStyle:{
+            fontSize:15
+        },
+        tooltip: {},
+        radar: {
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 5,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                // { name: '面食', max: 20000},
+                // { name: '肉类', max: 26000},
+                // { name: '蔬菜', max: 40000},
+                // { name: '甜点', max: 48000},
+                // { name: '焙烤', max: 52000},
+                // { name: '豆制', max: 25000}
+                function(){
+                    var arrNum = [];
+                    $.ajax(
+                        {
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',
+                            async:true,
+                            success: function (result) {
+                                var typeName = result.name;
+                                var typeMax = result.max;
+                                for (var i = 0; i < typeName.length; i++)
+                                {
+                                    arrNum.push({"name":typeName[i],"max": typeMax[i]});
+                                }
+                            }
+                        });
+                    return arrNum;
+                }
+            ]
+        },
+        series: [{
+            name: '用户夜晚饮食习惯',
+            type: 'radar',
+            symbolSize:'8',
+            areaStyle:{
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FF6A6A' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FF6A6A' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }
+            },
+            data : [
+                {
+                    // value : [8000, 20000, 40000, 22000, 38000, 15000],
+                    function(){
+                        var arrNum = [];
+                        var value=[];
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "" ,
+                                dataType : 'json',
+                                async:true,
+                                success: function (result) {
+                                    var typeName = result.name;
+                                    var typeNum=result.num;
+                                    for (var i = 0; i < typeName.length; i++)
+                                    {
+                                        value.push(typeNum[i]);
+                                    }
+                                    arrNum.push({value});
+                                }
+                            });
+                        return arrNum;
+                    }
+                }
+            ]
+        }]
+    };
+    var option5 = {
+        title: {
+            text: '用户整体饮食习惯统计',
+            left:'center'
+        },
+        textStyle:{
+            fontSize:15
+        },
+        tooltip: {},
+        radar: {
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 5,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                // { name: '面食', max: 20000},
+                // { name: '肉类', max: 26000},
+                // { name: '蔬菜', max: 40000},
+                // { name: '甜点', max: 48000},
+                // { name: '焙烤', max: 52000},
+                // { name: '豆制', max: 25000}
+                function(){
+                    var arrNum = [];
+                    $.ajax(
+                        {
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',
+                            async:true,
+                            success: function (result) {
+                                var typeName = result.name;
+                                var typeMax = result.max;
+                                for (var i = 0; i < typeName.length; i++)
+                                {
+                                    arrNum.push({"name":typeName[i],"max": typeMax[i]});
+                                }
+                            }
+                        });
+                    return arrNum;
+                }
+            ]
+        },
+        series: [{
+            name: '用户整体饮食习惯',
+            type: 'radar',
+            symbolSize:'8',
+            areaStyle:{
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [{
+                        offset: 0, color: '#FF6A6A' // 0% 处的颜色
+                    }, {
+                        offset: 1, color: '#FF6A6A' // 100% 处的颜色
+                    }],
+                    globalCoord: false // 缺省为 false
+                }
+            },
+            data : [
+                {
+                    // value : [15000, 18000, 30000, 18000, 35000, 8000],
+                    function(){
+                        var arrNum = [];
+                        var value=[];
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "" ,
+                                dataType : 'json',
+                                async:true,
+                                success: function (result) {
+                                    var typeName = result.name;
+                                    var typeNum=result.num;
+                                    for (var i = 0; i < typeName.length; i++)
+                                    {
+                                        value.push(typeNum[i]);
+                                    }
+                                    arrNum.push({value});
+                                }
+                            });
+                        return arrNum;
+                    }
+                }
+            ]
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+
+    myChart1.setOption(option1);
+    myChart2.setOption(option2);
+    myChart3.setOption(option3);
+    myChart4.setOption(option4);
+    myChart5.setOption(option5);
+</script>
+</body>
+</html>

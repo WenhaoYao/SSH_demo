@@ -1,0 +1,514 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>数据可视化分析</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="assets/css/main.css"/>
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css"/>
+    </noscript>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- 引入 echarts -->
+    <script src="js/echarts.js"></script>
+    <!-- 引入 vintage 主题 -->
+    <script src="js/theme/vintage.js"></script>
+    <script src="js/theme/dark.js"></script>
+
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">
+            <span class="icon fa-diamond"></span>
+        </div>
+        <div class="content">
+            <div class="inner">
+                <h1>Visualization-Data</h1>
+                <p>这里是关于数据集文件的数据可视化相关信息以及图表信息展示<br>请点击相关信息查看数据</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#right">饼状图</a></li>
+                <li><a href="#morning">折线图</a></li>
+                <li><a href="#afternoon">柱状图</a></li>
+                <li><a href="#evening">漏斗图</a></li>
+                <li><a href="table.html">表格</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+        <!-- right -->
+        <article id="right">
+            <h2 class="major">pie</h2>
+            <p>这里是饼状图视图</p>
+            <span id="first" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- morning -->
+        <article id="morning">
+            <h2 class="major">line</h2>
+            <p>这里是折线图视图</p>
+            <span id="second" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- afternoon -->
+        <article id="afternoon">
+            <h2 class="major">bar</h2>
+            <p>这里是柱状图视图</p>
+            <span id="third" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- evening -->
+        <article id="evening">
+            <h2 class="major">dashed</h2>
+            <p>这里是漏斗图视图</p>
+            <span id="fourth" style="width: 600px;height:500px;"></span>
+        </article>
+
+        <!-- whole -->
+        <article id="whole">
+            <h class="major">table</h>
+            <p>这里是表格视图</p>
+            <span id="fifth" style="width: 600px;height:500px;"></span>
+        </article>
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <p class="copyright">&copy; lsy version 2.0</p>
+    </footer>
+
+</div>
+
+<!-- BG -->
+<div id="bg"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('first'), 'dark');
+    var myChart2 = echarts.init(document.getElementById('second'), 'dark');
+    var myChart3 = echarts.init(document.getElementById('third'), 'dark');
+    var myChart4 = echarts.init(document.getElementById('fourth'), 'dark');
+    // 指定图表的配置项和数据
+    // 饼状图
+    var option1 = {
+        title: {
+            text: '饼状图',
+            left: 'center'
+        },
+        textStyle: {
+            fontSize: 15
+        },
+        series: [{
+            name: '概率统计',
+            type: 'pie',
+            radius: '60%',
+            legendHoverLink: true,
+            data:
+                [ function(){
+                 var arrNum = [];
+                 $.ajax(
+                 {
+                	type: "get",
+                	url: "json/data.json" ,
+                	dataType : 'json',																			//传回来的数据形式为json对象形式
+                	async:true,
+                	success: function (result) {
+                	 	var year = result.year;																//type和num是后台定义的名字
+                	 	var school = result.school;
+                		 for (var i = 0; i < result.length; i++)
+                		 {
+                					arrNum.push({"year": year[i],"name":school[i]});
+                			}
+                			console.log(arrNum);
+                	}
+                		 });
+                		 return arrNum;
+                }]
+
+
+        }]
+    };
+    // 折线图
+    var option2 = {
+        title: {
+            text: '折线图'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['最高J值', '最低J值']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data:
+                    ( function(){
+                        var schools = [];
+                        $.ajax({
+                            type: "post",
+                            url: "json/data1.json" ,
+                            dataType : 'json',																			//传回来的数据形式为json对象形式
+                            async:true,      //返回数据形式为json
+                            success : function(result) {
+                                var school = result.school;//请求成功时执行该函数内容，result即为服务器返回的json对象
+                                if (result) {
+                                    for (var i = 0; i < result.length; i++) {
+                                        schools.push(result.school);    //挨个取出类别并填入类别数组
+                                    }
+                                }
+
+                            }
+                        });
+                        return schools;
+                    })
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} °C'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '最高J值',
+                type: 'line',
+                data: [
+                    function() {
+                        $.ajax({
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',																			//传回来的数据形式为json对象形式
+                            async:true,       //返回数据形式为json
+                            success : function(result) {
+                                var j_nums_high = [];
+                                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                if (result) {
+                                    for(var i=0;i<result.length;i++){
+                                        j_nums_high.push(result[i].j_num_high);    //挨个取出类别并填入类别数组
+                                    }
+
+                                }
+
+                            },
+                            error : function(errorMsg) {
+                                //请求失败时执行该函数
+                                alert("图表请求数据失败!");
+                            }
+                        });
+                        return j_nums_high;
+
+                    }
+                ],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+            {
+                name: '最低J值',
+                type: 'line',
+                data: [
+                    function() {
+                        $.ajax({
+                            type: "post",
+                            url: "" ,
+                            dataType : 'json',																			//传回来的数据形式为json对象形式
+                            async:true,       //返回数据形式为json
+                            success : function(result) {
+                                var j_nums_low = [];
+                                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                if (result) {
+                                    for(var i=0;i<result.length;i++){
+                                        j_nums_low.push(result[i].j_num_low);    //挨个取出类别并填入类别数组
+                                    }
+
+
+                                }
+
+                            },
+                            error : function(errorMsg) {
+                                //请求失败时执行该函数
+                                alert("图表请求数据失败!");
+                            }
+                        });
+                        return j_nums_low;
+
+                    }
+                ],
+                markPoint: {
+                    data: [
+                        {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            }
+        ]
+    };
+
+    //柱状图
+    var option3 = {
+        title: {
+            x: 'center',
+            text: '柱状图'
+        },
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : [function() {
+                    $.ajax({
+                        type: "post",
+                        url: "" ,
+                        dataType : 'json',																			//传回来的数据形式为json对象形式
+                        async:true,       //返回数据形式为json
+                        success : function(result) {
+                            //请求成功时执行该函数内容，result即为服务器返回的json对象
+                            if (result) {
+                                var schools = [];
+                                for(var i=0;i<result.length;i++){
+                                    schools.push(result[i].school);    //挨个取出类别并填入类别数组
+                                }
+                                return schools;
+
+                            }
+
+                        },
+                        error : function(errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                        }
+                    })
+
+                }],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'J值',
+                type:'bar',
+                barWidth: '60%',
+                data:[
+                    function() {
+                    $.ajax({
+                        type: "post",
+                        url: "" ,
+                        dataType : 'json',																			//传回来的数据形式为json对象形式
+                        async:true,       //返回数据形式为json
+                        success : function(result) {
+                            var j_nums = [];
+                            //请求成功时执行该函数内容，result即为服务器返回的json对象
+                            if (result) {
+                                for(var i=0;i<result.length;i++){
+                                    j_nums.push(result[i].j_num);    //挨个取出类别并填入类别数组
+                                }
+                                return j_nums;
+
+                            }
+
+                        },
+                        error : function(errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                        }
+                    })
+
+                }]
+            }
+        ]
+    };
+
+    // 漏斗图
+    var option4 = {
+        title : {
+            text: '漏斗图'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c}%"
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        legend: {
+            data : [
+                function() {
+                    $.ajax({
+                        type: "post",
+                        url: "" ,
+                        dataType : 'json',																			//传回来的数据形式为json对象形式
+                        async:true,        //返回数据形式为json
+                        success : function(result) {
+                            var schools = [];
+                            //请求成功时执行该函数内容，result即为服务器返回的json对象
+                            if (result) {
+                                for(var i=0;i<result.length;i++){
+                                    schools.push(result[i].school);    //挨个取出类别并填入类别数组
+                                }
+                                return schools;
+
+                            }
+
+                        },
+                        error : function(errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                        }
+                    })
+
+                }
+
+            ]
+        },
+        calculable : true,
+        series : [
+            {
+                name:'漏斗图',
+                type:'funnel',
+                x: '10%',
+                y: 60,
+                //x2: 80,
+                y2: 60,
+                width: '80%',
+                // height: {totalHeight} - y - y2,
+                min: 0,
+                max: 100,
+                minSize: '0%',
+                maxSize: '100%',
+                sort : 'descending', // 'ascending', 'descending'
+                gap : 10,
+                itemStyle: {
+                    normal: {
+                        // color: 各异,
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        label: {
+                            show: true,
+                            position: 'inside'
+                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                        },
+                        labelLine: {
+                            show: false,
+                            length: 10,
+                            lineStyle: {
+                                // color: 各异,
+                                width: 1,
+                                type: 'solid'
+                            }
+                        }
+                    },
+                    emphasis: {
+                        // color: 各异,
+                        borderColor: 'red',
+                        borderWidth: 5,
+                        label: {
+                            show: true,
+                            formatter: '{b}:{c}%',
+                            textStyle:{
+                                fontSize:20
+                            }
+                        },
+                        labelLine: {
+                            show: true
+                        }
+                    }
+                },
+                data:[
+                    function(){
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "" ,
+                                dataType : 'json',																			//传回来的数据形式为json对象形式
+                                async:true,
+                                success: function (result) {
+                                    var key_value = [];
+                                    var schools = result.school;																//type和num是后台定义的名字
+                                    var j_nums = result.j_num;
+                                    for (var i = 0; i < result.length; i++)
+                                    {
+                                        key_value.push({"school": schools[i],"j_nums":j_nums[i]});
+                                    }
+                                }
+                            });
+                        return key_value;
+                    }
+                ]
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+
+    myChart1.setOption(option1);
+    myChart2.setOption(option2);
+    myChart3.setOption(option3);
+    myChart4.setOption(option4);
+</script>
+</body>
+</html>
