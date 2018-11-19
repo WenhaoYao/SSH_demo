@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="entity.Univercity" table="Univercity">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="sex" column="sex"/>
+        <property name="univercity" column="univercity"/>
+        <property name="year" column="year"/>
+        <property name="jValue" column="J_value"/>
+    </class>
+</hibernate-mapping>
