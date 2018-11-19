@@ -56,4 +56,15 @@ public class Univercity {
     public void setjValue(Integer jValue) {
         this.jValue = jValue;
     }
+
+    @Override
+    public String toString() {
+        return "Univercity{" +
+                "id=" + id +
+                ", sex='" + sex + '\'' +
+                ", univercity='" + univercity + '\'' +
+                ", year=" + year +
+                ", jValue=" + jValue +
+                '}';
+    }
 }
