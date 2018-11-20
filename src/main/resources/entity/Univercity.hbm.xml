@@ -4,9 +4,9 @@
         <id name="id" column="id">
             <generator class="native"/>
         </id>
-        <property name="sex" column="sex"/>
+        <property name="sex" column="sex" />
         <property name="univercity" column="univercity"/>
-        <property name="year" column="year"/>
+        <property name="start_time" column="start_time"/>
         <property name="jValue" column="J_value"/>
     </class>
 </hibernate-mapping>
