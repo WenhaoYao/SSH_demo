@@ -32,6 +32,7 @@ public class UnivercityDaoTest extends HibernateDaoSupport {
     @Test
     public void getList(){
         DetachedCriteria criteria = DetachedCriteria.forClass(Univercity.class);
+        assert this.getHibernateTemplate() != null;
         List<Univercity> list = (List<Univercity>) this.getHibernateTemplate().findByCriteria(criteria);
         for (Univercity u:
              list) {
