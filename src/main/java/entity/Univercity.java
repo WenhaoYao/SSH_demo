@@ -1,6 +1,6 @@
 package entity;
 
-import java.time.Year;
+import java.io.Serializable;
 
 /**
  * @author yaowenhao
@@ -9,12 +9,14 @@ import java.time.Year;
  * @Description: TODO
  * @date 2018/11/19 17:23
  */
-public class Univercity {
+public class Univercity implements Serializable {
+
+    private static final long serialVersionUID = -6849794470754667710L;
 
     private Integer id;
     private String sex;
     private String univercity;
-    private Year year;
+    private String start_time;
     private Integer jValue;
 
     public Integer getId() {
@@ -41,12 +43,12 @@ public class Univercity {
         this.univercity = univercity;
     }
 
-    public Year getYear() {
-        return year;
+    public String getStart_time() {
+        return start_time;
     }
 
-    public void setYear(Year year) {
-        this.year = year;
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
     }
 
     public Integer getjValue() {
@@ -63,7 +65,7 @@ public class Univercity {
                 "id=" + id +
                 ", sex='" + sex + '\'' +
                 ", univercity='" + univercity + '\'' +
-                ", year=" + year +
+                ", start_time=" + start_time +
                 ", jValue=" + jValue +
                 '}';
     }
