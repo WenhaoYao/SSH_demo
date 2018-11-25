@@ -7,6 +7,6 @@
         <property name="sex" column="sex" />
         <property name="univercity" column="univercity"/>
         <property name="start_time" column="start_time"/>
-        <property name="jValue" column="J_value"/>
+        <property name="jvalue" column="J_value"/>
     </class>
 </hibernate-mapping>

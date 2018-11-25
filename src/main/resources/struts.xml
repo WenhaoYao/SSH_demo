@@ -6,4 +6,10 @@
 
 <struts>
 
+    <package name="univercity" extends="struts-default" namespace="/">
+        <action name="univercity_*" class="action.UnivercityAction" method="{1}">
+
+        </action>
+    </package>
+
 </struts>
